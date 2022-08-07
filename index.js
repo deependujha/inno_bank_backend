@@ -4,7 +4,13 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const { Request } = require("./models/myModel");
+const cors = require("cors");
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -21,13 +27,13 @@ app.get("/requests", async (req, res) => {
 });
 
 app.post("/requests", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const reqId = req.body.reqId;
   const funds = req.body.funds;
   const idea = req.body.idea;
-  console.log(reqId);
-  console.log(funds);
-  console.log(idea);
+  // console.log(reqId);
+  // console.log(funds);
+  // console.log(idea);
   const newReq = new Request({ idea, funds, reqId });
   newReq
     .save()
@@ -37,7 +43,6 @@ app.post("/requests", async (req, res) => {
     .catch((e) => {
       res.status(404).send(e);
     });
-  // res.send("alpha");
 });
 
 app.listen(port, () => {
